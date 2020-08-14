@@ -11,8 +11,8 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "gtc",
-        version = "0.1",
-        description = "My GUI application!",
+        version = "v0.1",
+        description = "GUM Tree Calculator Console",
         options = {"build_exe": build_exe_options},
         executables = [Executable("gtc.py", base=base)])
         

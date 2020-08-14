@@ -1,10 +1,6 @@
-from __future__ import division
-from __future__ import print_function
-
 import code
 import sys
 import os       
-import site     # Needed for help() to work and for quit() and exit()
 from optparse import OptionParser
 import traceback
 
@@ -12,15 +8,35 @@ import math
 import cmath
 
 from GTC import *
-from GTC import core # Passed to __builtins__.help 
+
+#-----------------------------------------------------------------------------------------------
+# Pyinstaller changes the site.py module, here we restore help, quit and copyright 
+#
+import builtins
+if not hasattr(builtins,'help'):
+    import _sitebuiltins
+
+    if os.sep == '\\':
+        eof = 'Ctrl-Z plus Return'
+    else:
+        eof = 'Ctrl-D (i.e. EOF)'
+
+    builtins.quit = _sitebuiltins.Quitter('quit', eof)
+    builtins.exit = _sitebuiltins.Quitter('exit', eof)
+        
+    builtins.help = _sitebuiltins._Helper()
+
+    builtins.copyright = _sitebuiltins._Printer("copyright", sys.copyright)
 
 #-----------------------------------------------------------------------------------------------
 # Add submodules to the sys.modules register so they can be imported
 #
 submodules = (
-    'function','reporting',
+    'function',
+    'reporting',
     'linear_algebra',
-    'type_b','type_a',
+    'type_b',
+    'type_a',
 )
 for name in submodules:
     exec( "sys.modules['{!s}'] = {!s}".format(name,name) )
@@ -39,9 +55,10 @@ except KeyError:
 # Add the CWD too?
 # sys.path.append('.')
 
-#-------------------------------------------------------
-def help(module=core):
-    __builtins__.help(module)
+# #-------------------------------------------------------
+# from GTC import core 
+# def help(module=core):
+    # builtins.help(module)
 
 #-----------------------------------------------------------------
 def my_excepthook(tp,va,tb):
@@ -63,10 +80,14 @@ def my_excepthook(tp,va,tb):
     # so neither of these are accessible.
 
     modules = submodules + (
-        'context','lib','LU',
-        'uncertain_array','persistence',
-        'named_tuples'
-        'node','vector'
+        'context',
+        'lib',
+        'LU',
+        'uncertain_array',
+        'persistence',
+        'named_tuples',
+        'node',
+        'vector'
         # , 'cholesky','svd'
     )
     # These `outer_modules` provide the top level calling
@@ -129,7 +150,8 @@ class Console(code.InteractiveConsole):
         Execute lines of code before running the interpreter
         
         """
-        assert False == self.push("from __future__ import division")
+        # A Python 2.7 legacy: remove  
+        # assert False == self.push("from __future__ import division")
         
         # If something was left over, this discards it.
         self.resetbuffer()
@@ -146,7 +168,7 @@ class Console(code.InteractiveConsole):
         my_excepthook( *sys.exc_info() )
             
 #-------------------------------------------------------
-gtc_version = "%%prog %s" % version
+gtc_version = "%%prog v{!s}".format(version)
 parser = OptionParser(
     usage="%prog [-i|--interact] [-p|--plain] [script1 script2 ...]",
     version=gtc_version

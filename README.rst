@@ -2,19 +2,21 @@
 GUM Tree Calculator Console 
 ===========================
 
-This is a project to produce a stand-alone Windows executable for GTC. The executable can be distributed and used without the need to have a Python installation. 
+This project produces a stand-alone Windows executable for GTC, which can be distributed and used without the need to have Python installed on the host computer. 
 
 Background
 ==========
 
-MSL first made GTC available as a Windows executable and called it GTC. This tool was distributed with the SciTE editor to help development. However, when a Python package for GTC was released we renamed the Windows executable GTC Console.
+MSL first made GUM Tree Calculator available as a Windows executable and called it GTC. This tool was distributed with the SciTE editor to help development. 
 
-The Python tools we used to produce the original GTC Console have not been supported for some time and have become obsolete for later versions of Python. So, this project is an attempt to provide the executable with different tools.
+Then later MSL released a public Python package for GTC, and so we began to call the Windows executable version "GTC Console". They did not use the same code. 
+
+The Python tool used to produce the original GTC Console (py2exe) doesn't work with recent versions of Python. So, this project is will generate GTC Console with different tools, using the GTC (Python) code base.
  
 Status
 ======
 
-This GTC Console project is just starting. The first step will be to create a stand-alone Windows executable for GTC that will run on any Windows machine.
+This GTC Console is just starting out. The first goal is to create a stand-alone Windows executable for Windows machines. After this has been achieved, we will look at providing documentation and an installer.
 
 
 
